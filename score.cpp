@@ -171,13 +171,15 @@ void DrawScore()
 	switch (GetScene())
 	{
 	case SCENE_GAME:
-		SetDrawTextCreate("SCORE", SCREEN_WIDTH * 0.5f, 25, 5, 1);
-		SetDrawTextCreate(std::to_string(g_DrawScore), SCREEN_WIDTH * 0.5f, 90, 10, 2);
+		//スコア表示
+		//SetDrawTextCreate("SCORE", SCREEN_WIDTH * 0.5f, 25, 5, 1);
+		//SetDrawTextCreate(std::to_string(g_DrawScore), SCREEN_WIDTH * 0.5f, 90, 10, 2);
 
 		//ウェーブ毎に実行
 		if (g_WaveUp && p_Player[0].use)
 		{
-			SetDrawTextCreate("WAVE" + std::to_string(g_Wave), SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 10, 4, 300, 0.01f, 0.02f);
+			//ウェーブ表示
+			//SetDrawTextCreate("WAVE" + std::to_string(g_Wave), SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f, 10, 4, 300, 0.01f, 0.02f);
 		}
 		
 

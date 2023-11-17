@@ -21,6 +21,15 @@
 #define BACK_GROUND_SPEED		(8.0f)//îwåiÇÃà⁄ìÆë¨ìx
 
 //---------------------------------------------------
+//óÒãìëÃêÈåæ
+//---------------------------------------------------
+typedef enum
+{
+	LAYER_LOW = 0,
+	LAYER_HIGH,
+}LAYER_WHOLE;
+
+//---------------------------------------------------
 //ç\ë¢ëÃêÈåæ
 //---------------------------------------------------
 struct BACK_GROUND {
@@ -39,6 +48,7 @@ struct BACK_GROUND {
 	float moveSp;
 	float moveCou;
 	bool autoScroll;
+	int layerWhole;
 };
 
 //---------------------------------------------------
@@ -47,9 +57,10 @@ struct BACK_GROUND {
 void InitBackGround(void);
 void UninitBackGround(void);
 void UpdateBackGround(void);
-void DrawBackGround(void);
+void DrawBackGroundLow(void);
+void DrawBackGroundHigh(void);
 
 BACK_GROUND* GetBackGround();
-void SetBackGround(int texNo, int layer, float moveSp = 0.0f, bool autoScroll = false);
+void SetBackGround(int texNo, int layer, float moveSp = 0.0f, bool autoScroll = false, LAYER_WHOLE layerWhole = LAYER_LOW);
 
 

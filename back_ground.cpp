@@ -24,7 +24,7 @@ static int g_Tex0_sky;
 static int g_Tex1_clouds1;
 static int g_Tex2_clouds2;
 static int g_Tex3_clouds3;
-static int g_Tex4_ground;
+static int g_Tex4_mapGb;
 static int g_Tex5_fg_bush;
 static int g_Tex6_fg;
 static float g_UW;
@@ -45,6 +45,8 @@ void InitBackGround(void)
 	g_Tex1_clouds1 = LoadTexture((char*)"data/TEXTURE/1_clouds1.png");
 	g_Tex2_clouds2 = LoadTexture((char*)"data/TEXTURE/2_clouds2.png");
 	g_Tex3_clouds3 = LoadTexture((char*)"data/TEXTURE/3_clouds3.png");
+	g_Tex4_mapGb = LoadTexture((char*)"data/TEXTURE/mapBg.png");
+	
 
 	for (int i = 0; i < BACK_GROUND_MAX; i++)
 	{
@@ -82,6 +84,7 @@ void InitBackGround(void)
 	SetBackGround(g_Tex1_clouds1, 1, 0.5f, true);
 	SetBackGround(g_Tex2_clouds2, 2, 1.5f, true);
 	SetBackGround(g_Tex3_clouds3, 3, 3.8f, true);
+	SetBackGround(g_Tex4_mapGb, 4, 0.0f, false, LAYER_HIGH);
 }
 
 //---------------------------------------------------
@@ -136,14 +139,47 @@ void UpdateBackGround(void)
 //---------------------------------------------------
 //描画
 //---------------------------------------------------
-void DrawBackGround(void)
+void DrawBackGroundLow(void)
 {
 	SetSamplerState(FILTER_MODE_POINT, ADDRESS_MODE_WRAP);
 	for (int i = 0; i < BACK_GROUND_MAX; i++)
 	{
 		for (int j = 0; j < BACK_GROUND_COPY_MAX; j++)
 		{
-			if (g_BackGround[i][j].use)
+			if (g_BackGround[i][j].use && g_BackGround[i][j].layerWhole == LAYER_LOW)
+			{
+				//アニメーション
+				g_BackGround[i][j].uv = SetAnimation(g_BackGround[i][j].animeBasePattern, g_BackGround[i][j].animePattern, BACK_GROUND_WIDTH_PATTERN, BACK_GROUND_HEIGHT_PATTERN, g_BackGround[i][j].animeWidthPattern, g_Reverse);
+
+				g_BackGround[i][j].animeSkipFrame = Counter(g_BackGround[i][j].animeSkipFrame, BACK_GROUND_FRAME_SPAN);
+
+				if (g_BackGround[i][j].animeSkipFrame == 0)
+				{
+					g_BackGround[i][j].animePattern = Counter(g_BackGround[i][j].animePattern, BACK_GROUND_FRAME_MAX);
+				}
+
+				DrawSpriteColorRotate(g_BackGround[i][j].texNo,
+					g_BackGround[i][j].pos.x,
+					g_BackGround[i][j].pos.y,
+					g_BackGround[i][j].size.x, g_BackGround[i][j].size.y,	//幅、高さ
+					g_BackGround[i][j].uv.x, g_BackGround[i][j].uv.y,		//中心UV座標
+					g_UW, g_VH,		//テクスチャ幅、高さ
+					g_BackGround[i][j].color.r, g_BackGround[i][j].color.g, g_BackGround[i][j].color.b, g_BackGround[i][j].color.a,
+					g_BackGround[i][j].rot
+				);
+			}
+		}
+	}
+}
+
+void DrawBackGroundHigh(void)
+{
+	SetSamplerState(FILTER_MODE_POINT, ADDRESS_MODE_WRAP);
+	for (int i = 0; i < BACK_GROUND_MAX; i++)
+	{
+		for (int j = 0; j < BACK_GROUND_COPY_MAX; j++)
+		{
+			if (g_BackGround[i][j].use && g_BackGround[i][j].layerWhole == LAYER_HIGH)
 			{
 				//アニメーション
 				g_BackGround[i][j].uv = SetAnimation(g_BackGround[i][j].animeBasePattern, g_BackGround[i][j].animePattern, BACK_GROUND_WIDTH_PATTERN, BACK_GROUND_HEIGHT_PATTERN, g_BackGround[i][j].animeWidthPattern, g_Reverse);
@@ -188,7 +224,7 @@ BACK_GROUND* GetBackGround()
 //---------------------------------------------------
 // 背景配置処理
 //---------------------------------------------------
-void SetBackGround(int texNo, int layer, float moveSp, bool autoScroll)
+void SetBackGround(int texNo, int layer, float moveSp, bool autoScroll, LAYER_WHOLE layerWhole)
 {
 	p_Camera = GetCamera();
 	for (int j = 0; j < BACK_GROUND_COPY_MAX; j++)
@@ -202,6 +238,7 @@ void SetBackGround(int texNo, int layer, float moveSp, bool autoScroll)
 		g_BackGround[layer][j].animeSkipFrame = 0;
 		g_BackGround[layer][j].moveSp = moveSp;
 		g_BackGround[layer][j].autoScroll = autoScroll;
+		g_BackGround[layer][j].layerWhole = layerWhole;
 		g_BackGround[layer][j].use = true;
 	}
 }

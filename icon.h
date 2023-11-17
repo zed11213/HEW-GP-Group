@@ -14,7 +14,7 @@
 #define ICON_MAP_HEIGHT				(40)//配置指定間隔高さ
 #define ICON_WIDTH_PATTERN			(2)
 #define ICON_HEIGHT_PATTERN			(3)
-#define ICON_FRAME_MAX				(ICON_WIDTH_PATTERN * ICON_HEIGHT_PATTERN)//文字の全種類
+#define ICON_FRAME_MAX				(10)//文字の全種類
 #define ICON_FANFARE_ICON			(200)
 #define ICON_INIT_ICON				(0)
 #define ICON_SCREEN_SIZE_X			(49)
@@ -27,7 +27,8 @@ enum ICON_ATTRIB
 {
 	ICON_NONE = 0,
 	ICON_HEART,	//ハート
-	ICON_COIN //コイン
+	ICON_COIN, //コイン
+	ICON_MAP
 };
 
 //---------------------------------------------------
@@ -40,6 +41,7 @@ struct ICON_DATA
 	int animeWidthPattern;
 	int animeHeightPattern;
 	int animeFrameMax;
+	int texture;
 };
 
 struct ICON {
@@ -55,6 +57,7 @@ struct ICON {
 	int anumeFrameSpan;
 	bool anime;
 	float scale;
+	int texture;
 };
 //---------------------------------------------------
 //プロトタイプ宣言
@@ -63,8 +66,8 @@ void InitIcon();
 void UninitIcon();
 void UpdateIcon();
 void DrawIcon();
-void SetIconData(ICON_DATA data, std::string name, float posX, float posY, bool anime);
-void ChangeIcon(std::string name, ICON_DATA iconData, bool anime);
+void SetIconData(ICON_DATA data, std::string name, int texture, float posX, float posY, float sizeX = ICON_WIDTH, float sizeY = ICON_HEIGHT, bool anime = false, int frameSpan = 60);
+void ChangeIcon(std::string name, ICON_DATA iconData, bool anime, int frameSpan = 60);
 float GetIconU(int index);
 float GetIconV(int index);
 D3DXVECTOR2 GetIconUV(int index);

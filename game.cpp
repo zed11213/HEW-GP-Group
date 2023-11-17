@@ -36,7 +36,7 @@ static int g_TILEM;
 void InitGame()
 {
 	// マウスを非表示にする
-	ShowCursor(FALSE);
+	//ShowCursor(FALSE);
 
 	char tilem[] =
 	{
@@ -98,7 +98,7 @@ void UpdateGame()
 //---------------------------------------------------
 void DrawGame()
 {
-	DrawBackGround();
+	DrawBackGroundLow();
 	DrawParticle();
 	DrawTile();
 	DrawItem();
@@ -108,6 +108,7 @@ void DrawGame()
 	DrawBullet();
 	DrawHitSpark();
 	DrawDead();
+	DrawBackGroundHigh();
 	//DrawCamera();//デバッグ用
 	DrawTextCreate();
 	DrawIcon();

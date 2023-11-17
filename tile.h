@@ -4,6 +4,9 @@
 //===================================================
 #pragma once
 
+#include <list>
+#include <array>
+#include <vector>
 #include "main.h"
 #include "renderer.h"
 
@@ -72,3 +75,4 @@ float GetTileV(int index);
 D3DXVECTOR2 GetTileUV(int index);
 TILE_DATA* GetMapInfo(D3DXVECTOR2 pos);//座標直下のマップ情報を返す
 DIRECTION TileHit(D3DXVECTOR2 pos, float hsp, float vsp, float hitBoxWidth, float hitBoxHeight);
+void ChangeTile(std::vector<std::vector<int>>& map1, std::vector<std::vector<int>> map2, int group);

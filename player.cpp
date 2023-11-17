@@ -509,17 +509,17 @@ void DrawPlayer(void)
 					break;
 
 				case STATE_WALK:
-					g_AnimeBasePattern = 6;
-					g_Player[i].animeWidthPattern = 2;
+					g_AnimeBasePattern = 17 * 3;
+					g_Player[i].animeWidthPattern = 15;
 					break;
 
 				case STATE_RISE:
-					g_AnimeBasePattern = 2;
-					g_Player[i].animeWidthPattern = 1;
+					g_AnimeBasePattern = 17;
+					g_Player[i].animeWidthPattern = 17;
 					break;
 
 				case STATE_FALL:
-					g_AnimeBasePattern = 4;
+					g_AnimeBasePattern = 17 * 2;
 					g_Player[i].animeWidthPattern = 1;
 					break;
 
