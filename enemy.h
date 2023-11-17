@@ -10,16 +10,16 @@
 //マクロ定義
 //---------------------------------------------------
 #define ENEMY_MAX			(1000)//キャラクターの数
-#define ENEMY_WIDTH		(DEFAULT_TILE_SIZE)//画像横幅
-#define ENEMY_HEIGHT		(DEFAULT_TILE_SIZE)//画像縦高さ
+#define ENEMY_WIDTH		(DEFAULT_TILE_SIZE * 0.5f)//画像横幅
+#define ENEMY_HEIGHT		(DEFAULT_TILE_SIZE * 0.5f)//画像縦高さ
 #define ENEMY_HITBOX_WIDTH		(DEFAULT_TILE_SIZE * 0.5f)//エネミーのヒットボックス横
-#define ENEMY_HITBOX_HEIGHT	(DEFAULT_TILE_SIZE)//エネミーのヒットボックス縦
+#define ENEMY_HITBOX_HEIGHT	(DEFAULT_TILE_SIZE * 0.5f)//エネミーのヒットボックス縦
 #define ENEMY_WIDTH_PATTERN	(4)//横アニメパターン数
 #define ENEMY_HEIGHT_PATTERN	(5)//縦アニメパターン数
 #define ENEMY_FRAME_MAX	((ENEMY_WIDTH_PATTERN * ENEMY_HEIGHT_PATTERN) -1)//フレーム数
 #define ENEMY_FRAME_SPAN	(8)//アニメーションのスパン
 #define ENEMY_FOLLOW_SPAN	(5)//キャラクター間の間隔（フレーム）
-#define ENEMY_SPEED		(8.0f)//エネミーの移動速度
+#define ENEMY_SPEED		(4.0f)//エネミーの移動速度
 #define ENEMY_UNBEATABLE_TEME (20)//無敵時間
 
 //---------------------------------------------------

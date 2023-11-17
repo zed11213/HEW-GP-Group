@@ -536,7 +536,6 @@ void SetEnemyKnockBack(int index, float power, float radian)
 	//ã‚É‚Ì‚İ’µ‚Ô‚æ‚¤‚É‚·‚é(ã”¼‰~‚ª‰E‚ğ0‹‚Æ‚µ0`-180A‰º”¼‰~‚ª¶‚ğ180‹‚Æ‚µ180`0)
 	if (abs(degrees) < 90.0f) degrees = 45;
 	if (abs(degrees) > 90.0f) degrees = 135;
-	DebugPrint(degrees);
 
 	float radianA = degrees * 3.14159f / 180.0f;
 

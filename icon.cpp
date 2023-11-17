@@ -10,12 +10,14 @@
 #include "texture.h"
 #include "player.h"
 #include "text_create.h"
+#include "input.h"
 
 //---------------------------------------------------
 //グローバル変数
 //---------------------------------------------------
 static ICON g_Icon[ICON_MAX];
 static int g_TexIcon;
+static int g_TexMap;
 static float g_U;
 static float g_V;
 static float g_UW;
@@ -25,10 +27,13 @@ static ICON_DATA g_IconInfo[ICON_FRAME_MAX] =
 {
 	//左上座標とマップチップ属性の設定
 	//ここに追加していく////////////////////////////////////////////////////////////////////////////
-	{ ICON_NONE, 0, 0, 0},	//{属性名, 画像インデックス, 横パターン数, 縦パターン数}
-	{ ICON_HEART, 0, 1, 1},	//ハート
-	{ ICON_HEART, 2, 1, 1},	//ハート(消失)
-	{ ICON_COIN, 4, 1, 1},	//コイン
+	{ ICON_NONE, 0, 0, 0, g_TexIcon},	//{属性名, 画像インデックス, 横パターン数, 縦パターン数}
+	{ ICON_HEART, 0, 1, 1, g_TexIcon},	//1ハート
+	{ ICON_HEART, 2, 1, 1, g_TexIcon},	//2ハート(消失)
+	{ ICON_COIN, 4, 1, 1, g_TexIcon},	//3コイン
+	{ ICON_MAP, 0, 1, 1, g_TexMap},		//4ミニマップ
+	{ ICON_MAP, 4, 4, 1, g_TexMap},		//5ミニマップ
+	{ ICON_MAP, 8, 4, 1, g_TexMap},		//6ミニマップ
 	////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
@@ -39,7 +44,7 @@ static char g_IconMap[ICON_SCREEN_SIZE_Y][ICON_SCREEN_SIZE_X] =
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //2
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //3
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //4
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //5
+	{0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0}, //5
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //6
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //7
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //8
@@ -72,6 +77,7 @@ void InitIcon()
 {
 	//テクスチャ作成
 	g_TexIcon = LoadTexture((char*)"data/TEXTURE/Icon.png");
+	g_TexMap = LoadTexture((char*)"data/TEXTURE/miniMap.png");
 
 	for (int i = 0; i < ICON_MAX; i++)
 	{
@@ -91,7 +97,8 @@ void InitIcon()
 	g_V = 0.0f;
 	g_UW = 1.0f / ICON_WIDTH_PATTERN;
 	g_VH = 1.0f / ICON_HEIGHT_PATTERN;
-	int num = 0;
+	int hpNum = 0;
+	int mapNum = 0;
 
 	for (int y = 0; y < ICON_SCREEN_SIZE_Y; y++)
 	{
@@ -99,17 +106,23 @@ void InitIcon()
 		{
 			if (g_IconMap[y][x] != 0)
 			{
-				num++;
+				
 				ICON_DATA iconChip = g_IconInfo[g_IconMap[y][x]];
 				//ここに追加していく////////////////////////////////////////////////////////////////////////////
 				switch (iconChip.attrib)
 				{
 				case ICON_HEART:
-					SetIconData(iconChip, "PlayerHP" + std::to_string(num), x * ICON_MAP_WIDTH, y * ICON_MAP_HEIGHT, false);
+					hpNum++;
+					SetIconData(iconChip, "PlayerHP" + std::to_string(hpNum), g_TexIcon, x * ICON_MAP_WIDTH, y * ICON_MAP_HEIGHT);
 					break;
 
 				case ICON_COIN:
-					SetIconData(iconChip, "PlayerCoin", x * ICON_MAP_WIDTH, y * ICON_MAP_HEIGHT, false);
+					SetIconData(iconChip, "PlayerCoin", g_TexIcon, x * ICON_MAP_WIDTH, y * ICON_MAP_HEIGHT);
+					break;
+
+				case ICON_MAP:
+					mapNum++;
+					SetIconData(iconChip, "Map" + std::to_string(mapNum), g_TexMap, x * ICON_MAP_WIDTH + 80, y * ICON_MAP_HEIGHT, 320, 300);
 					break;
 
 				default:
@@ -145,6 +158,20 @@ void UpdateIcon()
 
 	//コイン枚数表示
 	SetDrawTextCreate(std::to_string(p_Player[0].coin), 1800, 1050, 4.0f, 1.4f);
+
+	//ミニマップ表示
+	if (GetKeyboardTrigger(DIK_1))
+	{
+		ChangeIcon("Map1", g_IconInfo[5], true, 30);
+	}
+	if (GetKeyboardTrigger(DIK_2))
+	{
+		ChangeIcon("Map2", g_IconInfo[6], true, 30);
+	}
+	if (GetKeyboardTrigger(DIK_3))
+	{
+		ChangeIcon("Map3", g_IconInfo[5], true, 30);
+	}
 }
 
 //---------------------------------------------------
@@ -158,7 +185,7 @@ void DrawIcon()
 		{
 			g_Icon[i].iconData.animeFrameMax = g_Icon[i].iconData.animeWidthPattern * g_Icon[i].iconData.animeHeightPattern;
 
-			D3DXVECTOR2 uv = SetAnimation(g_Icon[i].iconData.animeBasePattern, g_Icon[i].animePattern, ICON_WIDTH_PATTERN, ICON_HEIGHT_PATTERN, g_Icon[i].iconData.animeWidthPattern);
+			D3DXVECTOR2 uv = SetAnimation(g_Icon[i].iconData.animeBasePattern, g_Icon[i].animePattern, 4, 3, g_Icon[i].iconData.animeWidthPattern);
 
 			g_U = uv.x;
 			g_V = uv.y;
@@ -173,7 +200,7 @@ void DrawIcon()
 				}
 			}
 
-			DrawSpriteColorRotate(g_TexIcon,
+			DrawSpriteColorRotate(g_Icon[i].texture,
 				g_Icon[i].pos.x,
 				g_Icon[i].pos.y,
 				g_Icon[i].size.x, g_Icon[i].size.y,	//幅、高さ
@@ -197,7 +224,7 @@ void UninitIcon()
 //---------------------------------------------------
 // セット
 //---------------------------------------------------
-void SetIconData(ICON_DATA iconData, std::string name, float posX, float posY, bool anime)
+void SetIconData(ICON_DATA iconData, std::string name, int texture, float posX, float posY, float sizeX, float sizeY, bool anime, int frameSpan)
 {
 	for (int i = 0; i < ICON_MAX; i++)
 	{
@@ -208,6 +235,9 @@ void SetIconData(ICON_DATA iconData, std::string name, float posX, float posY, b
 			g_Icon[i].pos.x = posX;
 			g_Icon[i].pos.y = posY;
 			g_Icon[i].anime = anime;
+			g_Icon[i].anumeFrameSpan = frameSpan;
+			g_Icon[i].size = D3DXVECTOR2(sizeX, sizeY);
+			g_Icon[i].texture = texture;
 			g_Icon[i].use = true;
 			break;
 		}
@@ -217,7 +247,7 @@ void SetIconData(ICON_DATA iconData, std::string name, float posX, float posY, b
 //---------------------------------------------------
 //アイコン変更
 //---------------------------------------------------
-void ChangeIcon(std::string name, ICON_DATA iconData, bool anime)
+void ChangeIcon(std::string name, ICON_DATA iconData, bool anime, int frameSpan)
 {
 	for (int i = 0; i < ICON_MAX; i++)
 	{
@@ -225,6 +255,7 @@ void ChangeIcon(std::string name, ICON_DATA iconData, bool anime)
 		{
 			g_Icon[i].iconData = iconData;
 			g_Icon[i].anime = anime;
+			g_Icon[i].anumeFrameSpan = frameSpan;
 			break;
 		}
 	}
