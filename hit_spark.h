@@ -10,10 +10,10 @@
 //マクロ定義
 //---------------------------------------------------
 #define HIT_SPARK_MAX			(100)//キャラクターの数
-#define HIT_SPARK_WIDTH		(DEFAULT_TILE_SIZE)//画像横幅
-#define HIT_SPARK_HEIGHT	(DEFAULT_TILE_SIZE)//画像縦高さ
-#define HIT_SPARK_HITBOX_WIDTH		(DEFAULT_TILE_SIZE)//ヒットエフェクトのヒットボックス横
-#define HIT_SPARK_HITBOX_HEIGHT		(DEFAULT_TILE_SIZE)//ヒットエフェクトのヒットボックス縦
+#define HIT_SPARK_WIDTH		(40)//画像横幅
+#define HIT_SPARK_HEIGHT	(40)//画像縦高さ
+#define HIT_SPARK_HITBOX_WIDTH		(40)//ヒットエフェクトのヒットボックス横
+#define HIT_SPARK_HITBOX_HEIGHT		(40)//ヒットエフェクトのヒットボックス縦
 #define HIT_SPARK_WIDTH_PATTERN	(5)//横アニメパターン数
 #define HIT_SPARK_HEIGHT_PATTERN	(1)//縦アニメパターン数
 #define HIT_SPARK_FRAME_MAX	(HIT_SPARK_WIDTH_PATTERN * HIT_SPARK_HEIGHT_PATTERN)//フレーム数

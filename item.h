@@ -11,12 +11,12 @@
 //マクロ定義
 //---------------------------------------------------
 #define ITEM_MAX			(100)//キャラクターの数
-#define ITEM_WIDTH		(DEFAULT_TILE_SIZE)//画像横幅
-#define ITEM_HEIGHT		(DEFAULT_TILE_SIZE)//画像縦高さ
-#define ITEM_HITBOX_WIDTH	(DEFAULT_TILE_SIZE * 0.5f)//アイテムのヒットボックス横
-#define ITEM_HITBOX_HEIGHT	(DEFAULT_TILE_SIZE)//アイテムのヒットボックス縦
-#define ITEM_WIDTH_PATTERN	(14)//横アニメパターン数
-#define ITEM_HEIGHT_PATTERN	(6)//縦アニメパターン数
+#define ITEM_WIDTH		(80)//画像横幅
+#define ITEM_HEIGHT		(80)//画像縦高さ
+#define ITEM_HITBOX_WIDTH	(80 * 0.5f)//アイテムのヒットボックス横
+#define ITEM_HITBOX_HEIGHT	(80)//アイテムのヒットボックス縦
+#define ITEM_WIDTH_PATTERN	(1)//横アニメパターン数
+#define ITEM_HEIGHT_PATTERN	(3)//縦アニメパターン数
 #define ITEM_FRAME_MAX	((ITEM_WIDTH_PATTERN * ITEM_HEIGHT_PATTERN) -1)//フレーム数
 #define ITEM_FRAME_SPAN	(5)//アニメーションのスパン
 #define ITEM_FOLLOW_SPAN	(5)//キャラクター間の間隔（フレーム）
@@ -35,8 +35,9 @@ typedef enum
 
 typedef enum
 {
-	ITEM_TYPE_COIN,
-	ITEM_TYPE_TMATO,
+	ITEM_TYPE_PAPER,
+	ITEM_TYPE_PAPER2,
+	ITEM_TYPE_PAPER3,
 	ITEM_TYPE_TREASURE_BOX,
 	ITEM_TYPE_WEAPON,
 }ITEM_TYPE;
