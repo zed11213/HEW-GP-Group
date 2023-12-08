@@ -192,7 +192,9 @@ void InitTile(void)
 	ChangeTile(g_map, g_mapS1, 1);
 	ChangeTile(g_map, g_mapS2, 2);
 	ChangeTile(g_map, g_mapS3, 3);
-
+	ChangeTile(g_map, g_mapS2, 3);
+	ChangeTile(g_map, g_mapS1, 4);
+	ChangeTile(g_map, g_mapS3, 5);
 }
 
 //=============================================================================

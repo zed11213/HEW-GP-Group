@@ -10,10 +10,10 @@
 //マクロ定義
 //---------------------------------------------------
 #define PARTICLE_MAX			(1000)//キャラクターの数
-#define PARTICLE_WIDTH		(40)//画像横幅
-#define PARTICLE_HEIGHT		(40)//画像縦高さ
-#define PARTICLE_HITBOX_WIDTH		(DEFAULT_TILE_SIZE * 0.3f)//粒子のヒットボックス横
-#define PARTICLE_HITBOX_HEIGHT	(DEFAULT_TILE_SIZE * 0.3f)//粒子のヒットボックス縦
+#define PARTICLE_WIDTH		(20)//画像横幅
+#define PARTICLE_HEIGHT		(20)//画像縦高さ
+#define PARTICLE_HITBOX_WIDTH		(20 * 0.3f)//粒子のヒットボックス横
+#define PARTICLE_HITBOX_HEIGHT	(20 * 0.3f)//粒子のヒットボックス縦
 #define PARTICLE_WIDTH_PATTERN	(1)//横アニメパターン数
 #define PARTICLE_HEIGHT_PATTERN	(1)//縦アニメパターン数
 #define PARTICLE_FRAME_MAX	(PARTICLE_WIDTH_PATTERN * PARTICLE_HEIGHT_PATTERN)//フレーム数

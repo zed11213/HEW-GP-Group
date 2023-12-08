@@ -386,19 +386,19 @@ void UpdateEnemy(void)
 				SetPlayerScore(g_Enemy[i].score);
 				g_Enemy[i].use = false;
 
-				int itemRan = RandomPercent(60, 5, 5);
+				int itemRan = RandomPercent(33, 33, 33);
 					switch (itemRan)
 					{
 					case 1:
-						SetItem(g_Enemy[i].pos.x, g_Enemy[i].pos.y, ITEM_TYPE_COIN);
+						SetItem(g_Enemy[i].pos.x, g_Enemy[i].pos.y, ITEM_TYPE_PAPER);
 						break;
 
 					case 2:
-						SetItem(g_Enemy[i].pos.x, g_Enemy[i].pos.y, ITEM_TYPE_TMATO);
+						SetItem(g_Enemy[i].pos.x, g_Enemy[i].pos.y, ITEM_TYPE_PAPER2);
 						break;
 
 					case 3:
-						SetItem(g_Enemy[i].pos.x, g_Enemy[i].pos.y, ITEM_TYPE_TREASURE_BOX);
+						SetItem(g_Enemy[i].pos.x, g_Enemy[i].pos.y, ITEM_TYPE_PAPER3);
 						break;
 
 					default:
@@ -607,7 +607,7 @@ void SetEnemy(float posX, float posY, ENEMY_TYPE type)
 			case ENEMY_TYPE_1:
 				g_Enemy[i].textureNo = g_TexNo1;
 				g_Enemy[i].score = 5;
-				g_Enemy[i].hp = 30;
+				g_Enemy[i].hp = 1;
 				break;
 
 			case ENEMY_TYPE_2:

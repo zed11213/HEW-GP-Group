@@ -95,7 +95,7 @@ void InitItem(void)
 		g_Item[i].animePattern = 0;
 		g_Item[i].animeSkipFrame = 0;
 		g_Item[i].reverse = false;
-		g_Item[i].type = ITEM_TYPE_COIN;
+		g_Item[i].type = ITEM_TYPE_PAPER;
 		g_Item[i].animeLoop = false;
 		g_Item[i].gunType = GUN_TYPE_SEMI_AUTO;
 		g_Item[i].fadeOut = false;
@@ -386,22 +386,22 @@ int SetItem(float posX, float posY, ITEM_TYPE type)
 
 			switch (g_Item[i].type)
 			{
-			case ITEM_TYPE_COIN:
+			case ITEM_TYPE_PAPER:
 				g_Item[i].animeBasePattern = ITEM_WIDTH_PATTERN * 0;
 				g_Item[i].anime = true;
-				g_Item[i].animeWidthPattern = 14;
+				g_Item[i].animeWidthPattern = 1;
 				break;
 
-			case ITEM_TYPE_TMATO:
+			case ITEM_TYPE_PAPER2:
 				g_Item[i].animeBasePattern = ITEM_WIDTH_PATTERN * 1;
 				g_Item[i].anime = true;
 				g_Item[i].animeWidthPattern = 1;
 				break;
 
-			case ITEM_TYPE_TREASURE_BOX:
+			case ITEM_TYPE_PAPER3:
 				g_Item[i].animeBasePattern = ITEM_WIDTH_PATTERN * 2;
 				g_Item[i].anime = false;
-				g_Item[i].animeWidthPattern = 2;
+				g_Item[i].animeWidthPattern = 1;
 				break;
 
 			default:

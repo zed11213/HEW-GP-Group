@@ -351,7 +351,7 @@ void UpdatePlayer(void)
 				{
 					switch (p_Item[j].type)
 					{
-					case ITEM_TYPE_COIN:
+					case ITEM_TYPE_PAPER:
 						PlaySound(g_SE_coinGet, 0);
 						g_Player[i].coin++;
 						SetHitSpark(p_Item[j].pos.x, p_Item[j].pos.y, 0, 251, 185, 84);
@@ -359,7 +359,7 @@ void UpdatePlayer(void)
 						j += ITEM_MAX;
 						break;
 
-					case ITEM_TYPE_TMATO:
+					case ITEM_TYPE_PAPER2:
 						if (g_Player[i].hp < g_Player[i].maxHp)
 						{
 							PlaySound(g_SE_hpUp, 0);
@@ -367,6 +367,14 @@ void UpdatePlayer(void)
 							SetHitSpark(p_Item[j].pos.x, p_Item[j].pos.y, 0, 232, 59, 59);
 							p_Item[j].use = false;
 						}
+						j += ITEM_MAX;
+						break;
+
+					case ITEM_TYPE_PAPER3:
+						PlaySound(g_SE_coinGet, 0);
+						g_Player[i].coin++;
+						SetHitSpark(p_Item[j].pos.x, p_Item[j].pos.y, 0, 251, 185, 84);
+						p_Item[j].use = false;
 						j += ITEM_MAX;
 						break;
 

@@ -11,10 +11,10 @@
 //マクロ定義
 //---------------------------------------------------
 #define BULLET_MAX			(100)//キャラクターの数
-#define BULLET_WIDTH		(DEFAULT_TILE_SIZE)//画像横幅
-#define BULLET_HEIGHT		(DEFAULT_TILE_SIZE)//画像縦高さ
-#define BULLET_HITBOX_WIDTH		(DEFAULT_TILE_SIZE * 0.3f)//弾のヒットボックス横
-#define BULLET_HITBOX_HEIGHT	(DEFAULT_TILE_SIZE * 0.3f)//弾のヒットボックス縦
+#define BULLET_WIDTH		(40)//画像横幅
+#define BULLET_HEIGHT		(40)//画像縦高さ
+#define BULLET_HITBOX_WIDTH		(40 * 0.3f)//弾のヒットボックス横
+#define BULLET_HITBOX_HEIGHT	(40 * 0.3f)//弾のヒットボックス縦
 #define BULLET_WIDTH_PATTERN	(2)//横アニメパターン数
 #define BULLET_HEIGHT_PATTERN	(1)//縦アニメパターン数
 #define BULLET_FRAME_MAX	(BULLET_WIDTH_PATTERN * BULLET_HEIGHT_PATTERN)//フレーム数
