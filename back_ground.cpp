@@ -28,6 +28,7 @@ static int g_Tex3_clouds3;
 static int g_Tex4_mapGb;
 static int g_Tex5_fg_bush;
 static int g_Tex6_fg;
+static int g_Tex7_tree;
 static float g_UW;
 static float g_VH;
 static float g_AnimeSkipFrameFloat;
@@ -52,6 +53,7 @@ void InitBackGround(void)
 	g_Tex2_clouds2 = LoadTexture((char*)"data/TEXTURE/2_clouds2.png");
 	g_Tex3_clouds3 = LoadTexture((char*)"data/TEXTURE/3_clouds3.png");
 	g_Tex4_mapGb = LoadTexture((char*)"data/TEXTURE/mapBg.png");
+	g_Tex7_tree = LoadTexture((char*)"data/TEXTURE/Tree.png");
 	
 
 	for (int i = 0; i < BACK_GROUND_MAX; i++)
@@ -91,6 +93,7 @@ void InitBackGround(void)
 	SetBackGround(g_Tex2_clouds2, 2, 1.5f, true);
 	SetBackGround(g_Tex3_clouds3, 3, 3.8f, true);
 	SetBackGround(g_Tex4_mapGb, 4, 0.0f, false, LAYER_HIGH);
+	SetBackGround(g_Tex7_tree, 5, 0.5f, false);
 
 	transitionDuration = 10.0f;
 	currentTime = 0.0f;
