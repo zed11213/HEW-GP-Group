@@ -172,6 +172,7 @@ void UpdatePlayer(void)
 			bool keyRight = GetKeyboardPress(DIK_D);
 			bool keyJump = GetKeyboardPress(DIK_SPACE);
 			bool keySelect = GetKeyboardTrigger(DIK_E);
+			bool keyDash = GetKeyboardPress(DIK_LSHIFT);
 
 			//‰½‚à‰Ÿ‚µ‚Ä‚¢‚È‚¢–”‚ÍA,D‚ð—¼•û‰Ÿ‚µ‚Ä‚é‚Æ‚«‚Í0(false)‚ð•Ô‚·
 			int move = keyRight - keyLeft;
@@ -180,6 +181,16 @@ void UpdatePlayer(void)
 			{
 				if (g_Player[i].knockBackX > 0) g_Player[i].knockBackX -= 1.0f;
 				if (g_Player[i].knockBackX < 0) g_Player[i].knockBackX += 1.0f;
+			}
+
+			//‘–‚è
+			if (keyDash)
+			{
+				g_Player[i].walksp = 30;
+			}
+			else
+			{
+				g_Player[i].walksp = PLAYER_SPEED;
 			}
 
 			//ˆÚ“®•ûŒü‚Æ‘¬“x
@@ -303,8 +314,16 @@ void UpdatePlayer(void)
 				//“®‚¢‚Ä‚¢‚é‚Æ‚«‚Ìˆ—
 				else
 				{
-					g_Player[i].state = STATE_WALK;
-					if (aimSide != Sign(g_Player[i].hsp));
+					if (!keyDash)
+					{
+						g_Player[i].state = STATE_WALK;
+						if (aimSide != Sign(g_Player[i].hsp));
+					}
+					else
+					{
+						g_Player[i].state = STATE_DASH;
+						if (aimSide != Sign(g_Player[i].hsp));
+					}
 				}
 			}
 			//’n–Ê‚ÉG‚ê‚Ä‚¢‚È‚¢ê‡
@@ -529,6 +548,11 @@ void DrawPlayer(void)
 				case STATE_FALL:
 					g_AnimeBasePattern = 17 * 2;
 					g_Player[i].animeWidthPattern = 1;
+					break;
+
+				case STATE_DASH:
+					g_AnimeBasePattern = 17 * 4;
+					g_Player[i].animeWidthPattern = 13;
 					break;
 
 				default:

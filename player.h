@@ -15,11 +15,11 @@
 #define PLAYER_HITBOX_WIDTH		(PLAYER_WIDTH * 0.5f)//プレイヤーのヒットボックス横
 #define PLAYER_HITBOX_HEIGHT	(PLAYER_HEIGHT)//プレイヤーのヒットボックス縦
 #define PLAYER_WIDTH_PATTERN	(17)//横アニメパターン数
-#define PLAYER_HEIGHT_PATTERN	(4)//縦アニメパターン数
+#define PLAYER_HEIGHT_PATTERN	(5)//縦アニメパターン数
 #define PLAYER_FRAME_MAX	((PLAYER_WIDTH_PATTERN * PLAYER_HEIGHT_PATTERN) -1)//フレーム数
 #define PLAYER_FRAME_SPAN	(2)//アニメーションのスパン
 #define PLAYER_FOLLOW_SPAN	(5)//キャラクター間の間隔（フレーム）
-#define PLAYER_SPEED		(8.0f)//プレイヤーの移動速度
+#define PLAYER_SPEED		(4.0f)//プレイヤーの移動速度
 #define PLAYER_INIT_HP		(3)//初期体力
 #define PLAYER_UNBEATABLE_TEME (180)//無敵時間
 
@@ -31,7 +31,8 @@ typedef enum
 	STATE_IDLE,
 	STATE_WALK,
 	STATE_RISE,
-	STATE_FALL
+	STATE_FALL,
+	STATE_DASH,
 }PLAYER_STATE;
 
 //---------------------------------------------------
