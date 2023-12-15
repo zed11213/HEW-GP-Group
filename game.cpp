@@ -19,7 +19,7 @@
 #include "enemy.h"
 #include "text_create.h"
 #include "particle.h"
-#include "ui.h"
+#include "minimap.h"
 #include "icon.h"
 #include "score.h"
 #include "item.h"
@@ -57,7 +57,7 @@ void InitGame()
 	InitTextCreate();
 	InitParticle();
 	InitIcon();
-	InitUi();
+	InitMinimap();
 	InitScore();
 	InitTextDW();
 	SetFadeColor(0.0f, 0.0f, 0.0f);//なんか適当な色をセット
@@ -88,7 +88,7 @@ void UpdateGame()
 	UpdateTextCreate();
 	UpdateParticle();
 	UpdateIcon();
-	UpdateUi();
+	UpdateMinimap();
 	UpdateScore();
 	UpdateTextDW();
 }
@@ -112,7 +112,7 @@ void DrawGame()
 	//DrawCamera();//デバッグ用
 	DrawTextCreate();
 	DrawIcon();
-	DrawUi();
+	DrawMinimap();
 	DrawScore();
 	DrawTextDW();
 }
@@ -122,7 +122,7 @@ void DrawGame()
 //---------------------------------------------------
 void UninitGame()
 {
-	UninitUi();
+	UninitMinimap();
 	UninitIcon();
 	UninitTextCreate();
 	UninitParticle();

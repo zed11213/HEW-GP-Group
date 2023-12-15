@@ -1,47 +1,47 @@
 //===================================================
-//アイコン改修版(icon.cpp)
-//Auhor:名倉 彪		Date:2023/12/15
+//ミニマップ表示	(minimap.cpp)
+//Author:名倉 彪		Date:2023/12/15
 //===================================================
 #include <fstream>
 #include <iostream>
 #include "main.h"
-#include "icon.h"
+#include "minimap.h"
 #include "sprite.h"
 #include "texture.h"
 #include "player.h"
 #include "text_create.h"
 #include "input.h"
 
-//---------------------------------------------------
+//========================================================
 //グローバル変数
-//---------------------------------------------------
-static ICON g_Icon[ICON_MAX];
-static int g_TexIcon;
+//========================================================
+static MINIMAP g_minimap[MINIMAP_MAX];
+static int g_TexMinimap;
 static float g_U;
 static float g_V;
 static float g_UW;
 static float g_VH;
 static PLAYER* p_Player;
-static ICON_DATA g_IconInfo[ICON_FRAME_MAX] =
+static MINIMAP_DATA g_MinimapInfo[MINIMAP_FRAME_MAX] =
 {
 	//左上座標とマップチップ属性の設定
 	//ここに追加していく////////////////////////////////////////////////////////////////////////////
-	{ ICON_NONE, 0, 0, 0, g_TexIcon},	//{属性名, 画像インデックス, 横パターン数, 縦パターン数}
-	{ ICON_HEART, 0, 1, 1, g_TexIcon},	//1ハート
-	{ ICON_HEART, 2, 1, 1, g_TexIcon},	//2ハート(消失)
-	{ ICON_COIN, 4, 1, 1, g_TexIcon},	//3コイン
+	{ MINIMAP_NONE, 0, 0, 0, g_TexMinimap},			//{属性名, 画像インデックス, 横パターン数, 縦パターン数}
+	{ MINIMAP_ADLE, 0, 1, 1, g_TexMinimap},			//通常状態
+	{ MINIMAP_TURN_RIGHT, 4, 4, 1, g_TexMinimap},	//右回転
+	{ MINIMAP_TURN_LEFT, 8, 4, 1, g_TexMinimap},	//左回転
 	////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
 
-static char g_IconMap[ICON_SCREEN_SIZE_Y][ICON_SCREEN_SIZE_X] =
+static char g_IconMap[MINIMAP_SCREEN_SIZE_Y][MINIMAP_SCREEN_SIZE_X] =
 {
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //0
 	{0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //1
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0}, //2
+	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //2
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //3
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //4
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //5
+	{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0}, //5
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //6
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //7
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //8
@@ -63,59 +63,54 @@ static char g_IconMap[ICON_SCREEN_SIZE_Y][ICON_SCREEN_SIZE_X] =
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //4
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //5
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, //6
-//	 4,3,2,1,0,9,8,7,6,5,4,3,2,1,0,9,8,7,6,5,4,3,2,1,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4
-//                           |                       |  					 |
+	//	 4,3,2,1,0,9,8,7,6,5,4,3,2,1,0,9,8,7,6,5,4,3,2,1,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4
+	//                           |                       |  					 |
 };
 
 //---------------------------------------------------
 //初期化
 //---------------------------------------------------
-void InitIcon()
+void InitMinimap()
 {
 	//テクスチャ作成
-	g_TexIcon = LoadTexture((char*)"data/TEXTURE/Icon.png");
+	g_TexMinimap = LoadTexture((char*)"data/TEXTURE/miniMap.png");
 
-	for (int i = 0; i < ICON_MAX; i++)
+	for (int i = 0; i < MINIMAP_MAX; i++)
 	{
-		g_Icon[i].use = false;
-		g_Icon[i].name = ICON_NONE;
-		g_Icon[i].pos.x = 0;
-		g_Icon[i].pos.y = 0;
-		g_Icon[i].color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		g_Icon[i].animePattern = 0;
-		g_Icon[i].animeSkipFrame = 0;
-		g_Icon[i].anumeFrameSpan = 0;
-		g_Icon[i].size = D3DXVECTOR2(ICON_WIDTH, ICON_HEIGHT);
-		g_Icon[i].scale = 0;
+		g_minimap[i].use = false;
+		g_minimap[i].name = MINIMAP_NONE;
+		g_minimap[i].pos.x = 0;
+		g_minimap[i].pos.y = 0;
+		g_minimap[i].color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		g_minimap[i].animePattern = 0;
+		g_minimap[i].animeSkipFrame = 0;
+		g_minimap[i].anumeFrameSpan = 0;
+		g_minimap[i].size = D3DXVECTOR2(MINIMAP_WIDTH, MINIMAP_HEIGHT);
+		g_minimap[i].scale = 0;
 	}
 
 	g_U = 0.0f;
 	g_V = 0.0f;
-	g_UW = 1.0f / ICON_WIDTH_PATTERN;
-	g_VH = 1.0f / ICON_HEIGHT_PATTERN;
+	g_UW = 1.0f / MINIMAP_WIDTH_PATTERN;
+	g_VH = 1.0f / MINIMAP_HEIGHT_PATTERN;
 	int hpNum = 0;
 	int mapNum = 0;
 
-	for (int y = 0; y < ICON_SCREEN_SIZE_Y; y++)
+	for (int y = 0; y < MINIMAP_SCREEN_SIZE_Y; y++)
 	{
-		for (int x = 0; x < ICON_SCREEN_SIZE_X; x++)
+		for (int x = 0; x < MINIMAP_SCREEN_SIZE_X; x++)
 		{
 			if (g_IconMap[y][x] != 0)
 			{
-				
-				ICON_DATA iconChip = g_IconInfo[g_IconMap[y][x]];
+
+				MINIMAP_DATA iconChip = g_MinimapInfo[g_IconMap[y][x]];
 				//ここに追加していく////////////////////////////////////////////////////////////////////////////
 				switch (iconChip.attrib)
 				{
-				case ICON_HEART:
-					hpNum++;
-					SetIconData(iconChip, "PlayerHP" + std::to_string(hpNum), g_TexIcon, x * ICON_MAP_WIDTH, y * ICON_MAP_HEIGHT);
+				case MINIMAP_ADLE:
+					mapNum++;
+					SetMinimapData(iconChip, "Map" + std::to_string(mapNum), g_TexMinimap, x * MINIMAP_MAP_WIDTH + 80, y * MINIMAP_MAP_HEIGHT, 320, 300);
 					break;
-
-				case ICON_COIN:
-					SetIconData(iconChip, "PlayerCoin", g_TexIcon, x * ICON_MAP_WIDTH, y * ICON_MAP_HEIGHT);
-					break;
-
 
 				default:
 					break;
@@ -125,76 +120,72 @@ void InitIcon()
 			}
 		}
 	}
-	
+
 }
 
 //---------------------------------------------------
 //更新
 //---------------------------------------------------
-void UpdateIcon()
+void UpdateMinimap()
 {
-	//体力表示
-	p_Player = GetPlayer();
-
-	for (int i = 0; i < PLAYER_INIT_HP; i++)
+	//ミニマップ表示
+	if (GetKeyboardTrigger(DIK_1))
 	{
-		if (p_Player[0].hp > i)
-		{
-			ChangeIcon("PlayerHP" + std::to_string(i + 1), g_IconInfo[1], false);
-		}
-		else
-		{
-			ChangeIcon("PlayerHP" + std::to_string(i + 1), g_IconInfo[2], false);
-		}
+		ChangeMinimap("Map1", g_MinimapInfo[5], true, 30);
 	}
-
-	//コイン枚数表示
-	SetDrawTextCreate(std::to_string(p_Player[0].coin), 200, 40, 4.0f, 1.4f);
-
+	if (GetKeyboardTrigger(DIK_2))
+	{
+		ChangeMinimap("Map2", g_MinimapInfo[6], true, 30);
+	}
+	if (GetKeyboardTrigger(DIK_3))
+	{
+		ChangeMinimap("Map3", g_MinimapInfo[5], true, 30);
+	}
 }
 
 //---------------------------------------------------
 //描画
 //---------------------------------------------------
-void DrawIcon()
+void DrawMinimap()
 {
-	for (int i = 0; i < ICON_MAX; i++)
+	for (int i = 0; i < MINIMAP_MAX; i++)
 	{
-		if (g_Icon[i].use)
+		if (g_minimap[i].use)
 		{
-			g_Icon[i].iconData.animeFrameMax = g_Icon[i].iconData.animeWidthPattern * g_Icon[i].iconData.animeHeightPattern;
+			g_minimap[i].minimapData.animeFrameMax = g_minimap[i].minimapData.animeWidthPattern * g_minimap[i].minimapData.animeHeightPattern;
 
-			D3DXVECTOR2 uv = SetAnimation(g_Icon[i].iconData.animeBasePattern, g_Icon[i].animePattern, ICON_WIDTH_PATTERN, ICON_HEIGHT_PATTERN, g_Icon[i].iconData.animeWidthPattern);
+			D3DXVECTOR2 uv = SetAnimation(g_minimap[i].minimapData.animeBasePattern, g_minimap[i].animePattern, 4, 3, g_minimap[i].minimapData.animeWidthPattern);
 
 			g_U = uv.x;
 			g_V = uv.y;
 
-			if (g_Icon[i].anime)
+			if (g_minimap[i].anime)
 			{
-				g_Icon[i].animeSkipFrame = Counter(g_Icon[i].animeSkipFrame, g_Icon[i].anumeFrameSpan);
+				g_minimap[i].animeSkipFrame = Counter(g_minimap[i].animeSkipFrame, g_minimap[i].anumeFrameSpan);
 
-				if (g_Icon[i].animeSkipFrame == 0)
+				if (g_minimap[i].animeSkipFrame == 0)
 				{
-					g_Icon[i].animePattern = Counter(g_Icon[i].animePattern, g_Icon[i].iconData.animeFrameMax);
+					g_minimap[i].animePattern = Counter(g_minimap[i].animePattern, g_minimap[i].minimapData.animeFrameMax);
 				}
 			}
 
-			DrawSpriteColorRotate(g_TexIcon,
-				g_Icon[i].pos.x,
-				g_Icon[i].pos.y,
-				g_Icon[i].size.x, g_Icon[i].size.y,	//幅、高さ
+			DrawSpriteColorRotate(g_minimap[i].texture,
+				g_minimap[i].pos.x,
+				g_minimap[i].pos.y,
+				g_minimap[i].size.x, g_minimap[i].size.y,	//幅、高さ
 				g_U, g_V,		//中心UV座標
 				g_UW, g_VH,		//テクスチャ幅、高さ
-				g_Icon[i].color.r, g_Icon[i].color.g, g_Icon[i].color.b, g_Icon[i].color.a,
+				g_minimap[i].color.r, g_minimap[i].color.g, g_minimap[i].color.b, g_minimap[i].color.a,
 				0.0f
 			);
 		}
 	}
 }
+
 //---------------------------------------------------
 //終了処理
 //---------------------------------------------------
-void UninitIcon()
+void UninitMinimap()
 {
 
 }
@@ -202,21 +193,21 @@ void UninitIcon()
 //---------------------------------------------------
 // セット
 //---------------------------------------------------
-void SetIconData(ICON_DATA iconData, std::string name, int texture, float posX, float posY, float sizeX, float sizeY, bool anime, int frameSpan)
+void SetMinimapData(MINIMAP_DATA iconData, std::string name, int texture, float posX, float posY, float sizeX, float sizeY, bool anime, int frameSpan)
 {
-	for (int i = 0; i < ICON_MAX; i++)
+	for (int i = 0; i < MINIMAP_MAX; i++)
 	{
-		if (!g_Icon[i].use)
+		if (!g_minimap[i].use)
 		{
-			g_Icon[i].iconData = iconData;
-			g_Icon[i].name = name;
-			g_Icon[i].pos.x = posX;
-			g_Icon[i].pos.y = posY;
-			g_Icon[i].anime = anime;
-			g_Icon[i].anumeFrameSpan = frameSpan;
-			g_Icon[i].size = D3DXVECTOR2(sizeX, sizeY);
-			g_Icon[i].texture = texture;
-			g_Icon[i].use = true;
+			g_minimap[i].minimapData = iconData;
+			g_minimap[i].name = name;
+			g_minimap[i].pos.x = posX;
+			g_minimap[i].pos.y = posY;
+			g_minimap[i].anime = anime;
+			g_minimap[i].anumeFrameSpan = frameSpan;
+			g_minimap[i].size = D3DXVECTOR2(sizeX, sizeY);
+			g_minimap[i].texture = texture;
+			g_minimap[i].use = true;
 			break;
 		}
 	}
@@ -225,15 +216,15 @@ void SetIconData(ICON_DATA iconData, std::string name, int texture, float posX, 
 //---------------------------------------------------
 //アイコン変更
 //---------------------------------------------------
-void ChangeIcon(std::string name, ICON_DATA iconData, bool anime, int frameSpan)
+void ChangeMinimap(std::string name, MINIMAP_DATA iconData, bool anime, int frameSpan)
 {
-	for (int i = 0; i < ICON_MAX; i++)
+	for (int i = 0; i < MINIMAP_MAX; i++)
 	{
-		if (g_Icon[i].name == name && g_Icon[i].use)
+		if (g_minimap[i].name == name && g_minimap[i].use)
 		{
-			g_Icon[i].iconData = iconData;
-			g_Icon[i].anime = anime;
-			g_Icon[i].anumeFrameSpan = frameSpan;
+			g_minimap[i].minimapData = iconData;
+			g_minimap[i].anime = anime;
+			g_minimap[i].anumeFrameSpan = frameSpan;
 			break;
 		}
 	}
@@ -242,25 +233,25 @@ void ChangeIcon(std::string name, ICON_DATA iconData, bool anime, int frameSpan)
 //=============================================================================
 // U座標をセット(引数 : 左上端を0その右隣りを1,2,3...としたときの数)
 //=============================================================================
-float GetIconU(int index)
+float GetMinimapU(int index)
 {
-	return ((index % ICON_WIDTH_PATTERN) * (1.0f / ICON_WIDTH_PATTERN));
+	return ((index % MINIMAP_WIDTH_PATTERN) * (1.0f / MINIMAP_WIDTH_PATTERN));
 }
 
 //=============================================================================
 // V座標をセット(引数 : 左上端を0その右隣りを1,2,3...としたときの数)
 //=============================================================================
-float GetIconV(int index)
+float GetMinimapV(int index)
 {
-	return ((index / ICON_WIDTH_PATTERN) * (1.0f / ICON_HEIGHT_PATTERN));
+	return ((index / MINIMAP_WIDTH_PATTERN) * (1.0f / MINIMAP_HEIGHT_PATTERN));
 }
 
 //=============================================================================
 // UV座標をセット(引数 : 左上端を0その右隣りを1,2,3...としたときの数)
 //=============================================================================
-D3DXVECTOR2 GetIconUV(int index)
+D3DXVECTOR2 GetMinimapUV(int index)
 {
-	D3DXVECTOR2 UV = D3DXVECTOR2(GetIconU(index), GetIconV(index));
+	D3DXVECTOR2 UV = D3DXVECTOR2(GetMinimapU(index), GetMinimapV(index));
 	return UV;
 }
 
