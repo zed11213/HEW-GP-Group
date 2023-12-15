@@ -57,7 +57,7 @@ void InitGame()
 	InitTextCreate();
 	InitParticle();
 	InitIcon();
-	InitUi();
+	InitUI();
 	InitScore();
 	InitTextDW();
 	SetFadeColor(0.0f, 0.0f, 0.0f);//なんか適当な色をセット
@@ -88,7 +88,7 @@ void UpdateGame()
 	UpdateTextCreate();
 	UpdateParticle();
 	UpdateIcon();
-	UpdateUi();
+	UpdateUI();
 	UpdateScore();
 	UpdateTextDW();
 }
@@ -112,7 +112,7 @@ void DrawGame()
 	//DrawCamera();//デバッグ用
 	DrawTextCreate();
 	DrawIcon();
-	DrawUi();
+	DrawUI();
 	DrawScore();
 	DrawTextDW();
 }
@@ -122,7 +122,7 @@ void DrawGame()
 //---------------------------------------------------
 void UninitGame()
 {
-	UninitUi();
+	UninitUI();
 	UninitIcon();
 	UninitTextCreate();
 	UninitParticle();

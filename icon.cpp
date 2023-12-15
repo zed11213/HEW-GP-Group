@@ -16,8 +16,16 @@
 //グローバル変数
 //---------------------------------------------------
 static ICON g_Icon[ICON_MAX];
+
+
 static int g_TexIcon;
+
+
+
 static int g_TexMap;
+
+
+
 static float g_U;
 static float g_V;
 static float g_UW;
@@ -200,15 +208,15 @@ void DrawIcon()
 				}
 			}
 
-			DrawSpriteColorRotate(g_Icon[i].texture,
-				g_Icon[i].pos.x,
-				g_Icon[i].pos.y,
-				g_Icon[i].size.x, g_Icon[i].size.y,	//幅、高さ
-				g_U, g_V,		//中心UV座標
-				g_UW, g_VH,		//テクスチャ幅、高さ
-				g_Icon[i].color.r, g_Icon[i].color.g, g_Icon[i].color.b, g_Icon[i].color.a,
-				0.0f
-			);
+			//DrawSpriteColorRotate(g_Icon[i].texture,
+			//	g_Icon[i].pos.x,
+			//	g_Icon[i].pos.y,
+			//	g_Icon[i].size.x, g_Icon[i].size.y,	//幅、高さ
+			//	g_U, g_V,		//中心UV座標
+			//	g_UW, g_VH,		//テクスチャ幅、高さ
+			//	g_Icon[i].color.r, g_Icon[i].color.g, g_Icon[i].color.b, g_Icon[i].color.a,
+			//	0.0f
+			//);
 		}
 	}
 }
