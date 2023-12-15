@@ -49,6 +49,7 @@ struct BACK_GROUND {
 	float moveCou;
 	bool autoScroll;
 	int layerWhole;
+	bool lighting;
 };
 
 //---------------------------------------------------
@@ -62,6 +63,6 @@ void DrawBackGroundLow(void);
 void DrawBackGroundHigh(void);
 
 BACK_GROUND* GetBackGround();
-void SetBackGround(int texNo, int layer, float moveSp = 0.0f, bool autoScroll = false, LAYER_WHOLE layerWhole = LAYER_LOW);
+void SetBackGround(int texNo, int layer, float moveSp = 0.0f, bool autoScroll = false, LAYER_WHOLE layerWhole = LAYER_LOW, bool lighting = false);
 
 

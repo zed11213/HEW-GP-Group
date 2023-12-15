@@ -77,7 +77,6 @@ void UpdateGame()
 	}
 	UpdateCamera();
 	UpdateBackGround();
-	UpdateBackGroundColor();
 	UpdateTile();
 	UpdatePlayer();
 	UpdateEnemy();

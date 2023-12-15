@@ -12,8 +12,8 @@
 #define ENEMY_MAX			(1000)//キャラクターの数
 #define ENEMY_WIDTH		(DEFAULT_TILE_SIZE * 0.5f)//画像横幅
 #define ENEMY_HEIGHT		(DEFAULT_TILE_SIZE * 0.5f)//画像縦高さ
-#define ENEMY_HITBOX_WIDTH		(DEFAULT_TILE_SIZE * 0.5f)//エネミーのヒットボックス横
-#define ENEMY_HITBOX_HEIGHT	(DEFAULT_TILE_SIZE * 0.5f)//エネミーのヒットボックス縦
+#define ENEMY_HITBOX_WIDTH		(300)//エネミーのヒットボックス横
+#define ENEMY_HITBOX_HEIGHT	(1000)//エネミーのヒットボックス縦
 #define ENEMY_WIDTH_PATTERN	(4)//横アニメパターン数
 #define ENEMY_HEIGHT_PATTERN	(5)//縦アニメパターン数
 #define ENEMY_FRAME_MAX	((ENEMY_WIDTH_PATTERN * ENEMY_HEIGHT_PATTERN) -1)//フレーム数
@@ -39,6 +39,7 @@ typedef enum
 	ENEMY_TYPE_1,
 	ENEMY_TYPE_2,
 	ENEMY_TYPE_3,
+	ENEMY_TYPE_4,
 }ENEMY_TYPE;
 
 //---------------------------------------------------

@@ -24,6 +24,7 @@
 static int g_TexNo1;
 static int g_TexNo2;
 static int g_TexNo3;
+static int g_TexNo4;
 static int g_SE_landing;
 static int g_SE_enemyDown;
 static int g_SE_drop;
@@ -46,6 +47,7 @@ void InitEnemy(void)
 	g_TexNo1 = LoadTexture((char*)"data/TEXTURE/Enemy1.png");
 	g_TexNo2 = LoadTexture((char*)"data/TEXTURE/Enemy2.png");
 	g_TexNo3 = LoadTexture((char*)"data/TEXTURE/Enemy3.png");
+	g_TexNo4 = LoadTexture((char*)"data/TEXTURE/Tree.png");
 	//効果音作成
 	char se1[] =
 	{
@@ -213,6 +215,10 @@ void UpdateEnemy(void)
 						g_Enemy[i].jump = true;
 					}	
 				}
+				break;
+
+			case ENEMY_TYPE_4:
+
 				break;
 
 			default:
@@ -496,15 +502,30 @@ void DrawEnemy(void)
 				g_Enemy[i].animePattern = Counter(g_Enemy[i].animePattern, g_Enemy[i].animeFrameMax);
 			}
 
-			DrawSpriteColorRotateCamera(g_Enemy[i].textureNo,
-				(int)g_Enemy[i].pos.x,
-				(int)g_Enemy[i].pos.y,
-				g_Enemy[i].size.x, g_Enemy[i].size.y,	//幅、高さ
-				g_U, g_V,		//中心UV座標
-				g_UW, g_VH,		//テクスチャ幅、高さ
-				g_Enemy[i].color.r, g_Enemy[i].color.g, g_Enemy[i].color.b, g_Enemy[i].color.a,
-				0.0f
-			);
+			if (g_Enemy[i].type != ENEMY_TYPE_4)
+			{
+				DrawSpriteColorRotateCamera(g_Enemy[i].textureNo,
+					(int)g_Enemy[i].pos.x,
+					(int)g_Enemy[i].pos.y,
+					g_Enemy[i].size.x, g_Enemy[i].size.y,	//幅、高さ
+					g_U, g_V,		//中心UV座標
+					g_UW, g_VH,		//テクスチャ幅、高さ
+					g_Enemy[i].color.r, g_Enemy[i].color.g, g_Enemy[i].color.b, g_Enemy[i].color.a,
+					0.0f
+				);
+			}
+			else
+			{
+				DrawSpriteColorRotateCamera(g_Enemy[i].textureNo,
+					(int)g_Enemy[i].pos.x,
+					(int)g_Enemy[i].pos.y,
+					1000, 800,	//幅、高さ
+					g_U, g_V,		//中心UV座標
+					g_UW, g_VH,		//テクスチャ幅、高さ
+					g_Enemy[i].color.r, g_Enemy[i].color.g, g_Enemy[i].color.b, g_Enemy[i].color.a,
+					0.0f
+				);
+			}
 		}
 	}
 }
@@ -620,6 +641,12 @@ void SetEnemy(float posX, float posY, ENEMY_TYPE type)
 				g_Enemy[i].textureNo = g_TexNo3;
 				g_Enemy[i].score = 30;
 				g_Enemy[i].hp = 3;
+				break;
+
+			case ENEMY_TYPE_4:
+				g_Enemy[i].textureNo = g_TexNo4;
+				g_Enemy[i].score = 0;
+				g_Enemy[i].hp = 50;
 				break;
 
 			default:

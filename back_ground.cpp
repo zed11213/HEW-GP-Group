@@ -29,6 +29,7 @@ static int g_Tex4_mapGb;
 static int g_Tex5_fg_bush;
 static int g_Tex6_fg;
 static int g_Tex7_tree;
+static int g_Tex8_lightFilter;
 static float g_UW;
 static float g_VH;
 static float g_AnimeSkipFrameFloat;
@@ -42,6 +43,7 @@ static D3DXCOLOR g_BackgroundColor;
 static float transitionDuration;
 static float currentTime;
 static float deltaTime;
+static float timeCount;
 
 //---------------------------------------------------
 //初期化
@@ -54,6 +56,7 @@ void InitBackGround(void)
 	g_Tex3_clouds3 = LoadTexture((char*)"data/TEXTURE/3_clouds3.png");
 	g_Tex4_mapGb = LoadTexture((char*)"data/TEXTURE/mapBg.png");
 	g_Tex7_tree = LoadTexture((char*)"data/TEXTURE/Tree.png");
+	g_Tex8_lightFilter = LoadTexture((char*)"data/TEXTURE/LightFilter.png");
 	
 
 	for (int i = 0; i < BACK_GROUND_MAX; i++)
@@ -80,6 +83,7 @@ void InitBackGround(void)
 			g_BackGround[i][j].moveSp = 0;
 			g_BackGround[i][j].moveCou = 0;
 			g_BackGround[i][j].autoScroll = false;
+			g_BackGround[i][j].lighting = false;
 		}
 	}
 
@@ -92,8 +96,9 @@ void InitBackGround(void)
 	SetBackGround(g_Tex1_clouds1, 1, 0.5f, true);
 	SetBackGround(g_Tex2_clouds2, 2, 1.5f, true);
 	SetBackGround(g_Tex3_clouds3, 3, 3.8f, true);
-	SetBackGround(g_Tex4_mapGb, 4, 0.0f, false, LAYER_HIGH);
+	SetBackGround(g_Tex4_mapGb, 2, 0.0f, false, LAYER_HIGH);
 	SetBackGround(g_Tex7_tree, 5, 0.5f, false);
+	SetBackGround(g_Tex8_lightFilter, 1, 0.0f, false, LAYER_HIGH, true);
 
 	transitionDuration = 10.0f;
 	currentTime = 0.0f;
@@ -143,10 +148,22 @@ void UpdateBackGround(void)
 					g_BackGround[i][j].pos.x -= BACK_GROUND_WIDTH;
 					g_BackGround[i][j].moveCou = 0;
 				}
+
+				//昼夜フィルター
+				if (g_BackGround[i][j].lighting)
+				{
+					timeCount += 0.02;
+					double value = sin(2 * D3DX_PI * 0.01 * timeCount);
+					;
+					g_BackGround[i][j].color.a = 0.3f;
+					g_BackGround[i][j].color.r = value;
+					g_BackGround[i][j].color.g = value;
+					g_BackGround[i][j].color.b = value;
+				}
 			}
 		}
 	}
-	UpdateBackGroundColor();
+	//UpdateBackGroundColor();
 }
 
 void UpdateBackGroundColor(void)
@@ -272,7 +289,7 @@ BACK_GROUND* GetBackGround()
 //---------------------------------------------------
 // 背景配置処理
 //---------------------------------------------------
-void SetBackGround(int texNo, int layer, float moveSp, bool autoScroll, LAYER_WHOLE layerWhole)
+void SetBackGround(int texNo, int layer, float moveSp, bool autoScroll, LAYER_WHOLE layerWhole, bool lighting)
 {
 	p_Camera = GetCamera();
 	for (int j = 0; j < BACK_GROUND_COPY_MAX; j++)
@@ -287,6 +304,7 @@ void SetBackGround(int texNo, int layer, float moveSp, bool autoScroll, LAYER_WH
 		g_BackGround[layer][j].moveSp = moveSp;
 		g_BackGround[layer][j].autoScroll = autoScroll;
 		g_BackGround[layer][j].layerWhole = layerWhole;
+		g_BackGround[layer][j].lighting = lighting;
 		g_BackGround[layer][j].use = true;
 	}
 }

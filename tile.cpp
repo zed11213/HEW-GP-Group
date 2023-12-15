@@ -178,7 +178,7 @@ void InitTile(void)
 			//エネミー
 			if (g_map[i][j] == E)
 			{
-				SetEnemy(j * MAPCHIP_SIZE, i * MAPCHIP_SIZE, ENEMY_TYPE_1);
+				SetEnemy(j * MAPCHIP_SIZE, i * MAPCHIP_SIZE, ENEMY_TYPE_4);
 			}
 		}
 	}
@@ -255,38 +255,43 @@ void UpdateTile(void)
 				switch (g_Wave % 5)
 				{
 				case 1:
-					ran = RandomPercent(99, 0, 1);
+					ran = RandomPercent(0, 0, 0, 20);
 					if (ran == 1)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_1);
 					if (ran == 2)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_2);
 					if (ran == 3)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_3);
+					if (ran == 4)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y - 1000, ENEMY_TYPE_4);
 					break;
 
 				case 2:
-					ran = RandomPercent(80, 19, 1);
+					ran = RandomPercent(60, 19, 1, 15);
 					if (ran == 1)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_1);
 					if (ran == 2)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_2);
 					if (ran == 3)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_3);
+					if (ran == 4)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y - 3000, ENEMY_TYPE_4);
 					break;
 
 				case 3:
-					ran = RandomPercent(60, 35, 5);
+					ran = RandomPercent(40, 35, 5, 20);
 					if (ran == 1)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_1);
 					if (ran == 2)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_2);
 					if (ran == 3)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_3);
+					if (ran == 4)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y - 3000, ENEMY_TYPE_4);
 					break;
 
 				case 4:
-					ran = RandomPercent(50, 40, 10);
+					ran = RandomPercent(10, 40, 10, 40);
 					if (ran == 1)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_1);
 					if (ran == 2)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_2);
 					if (ran == 3)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_3);
+					if (ran == 4)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y - 3000, ENEMY_TYPE_4);
 					break;
 
 				case 0:
-					ran = RandomPercent(0, 20, 80);
+					ran = RandomPercent(0, 0, 0, 100);
 					if (ran == 1)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_1);
 					if (ran == 2)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_2);
 					if (ran == 3)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y, ENEMY_TYPE_3);
+					if (ran == 4)SetEnemy(g_Tile[ranSpawnY][ranSpawnX + i].pos.x, g_Tile[ranSpawnY][ranSpawnX + i].pos.y - 3000, ENEMY_TYPE_4);
 					break;
 
 				default:
