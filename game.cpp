@@ -24,6 +24,7 @@
 #include "score.h"
 #include "item.h"
 #include "textDW.h"
+#include "EnemyBullet.h"
 
 //---------------------------------------------------
 //ÉOÉçÅ[ÉoÉãïœêî
@@ -48,6 +49,7 @@ void InitGame()
 	InitEnemy();
 	InitGun();
 	InitBullet();
+	EnemyBulletInit();
 	InitHitSpark();
 	InitItem();
 	InitTile();
@@ -83,6 +85,7 @@ void UpdateGame()
 	UpdateGun();
 	UpdateHitSpark();
 	UpdateBullet();
+	EnemyBulletUpdate();
 	UpdateItem();
 	UpdateDead();
 	UpdateTextCreate();
@@ -115,6 +118,7 @@ void DrawGame()
 	DrawMinimap();
 	DrawScore();
 	DrawTextDW();
+	EnemyBulletDraw();
 }
 
 //---------------------------------------------------
@@ -131,6 +135,7 @@ void UninitGame()
 	UninitBackGround();
 	UninitTile();
 	UninitHitSpark();
+	EnemyBulletUnInit();
 	UninitBullet();
 	UninitGun();
 	UninitEnemy();

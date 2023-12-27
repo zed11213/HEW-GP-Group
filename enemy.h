@@ -1,29 +1,31 @@
-//===================================================
-//ƒGƒlƒ~[(enemy.h)
-//Auhor:“nç³ C	Date:2023.9.4
+ï»¿//===================================================
+//åƒ„åƒ±å„ˆä¹•(enemy.h)
+//Auhor:æ‰ç»¯ å»‹	Date:2023.9.4
 //===================================================
 #pragma once
 #include "main.h"
 #include "renderer.h"
+#include "tile.h"
+
 
 //---------------------------------------------------
-//ƒ}ƒNƒ’è‹`
+//å„…åƒ‹å„˜æ•åªŠ
 //---------------------------------------------------
-#define ENEMY_MAX			(1000)//ƒLƒƒƒ‰ƒNƒ^[‚Ì”
-#define ENEMY_WIDTH		(DEFAULT_TILE_SIZE * 0.5f)//‰æ‘œ‰¡•
-#define ENEMY_HEIGHT		(DEFAULT_TILE_SIZE * 0.5f)//‰æ‘œc‚‚³
-#define ENEMY_HITBOX_WIDTH		(300)//ƒGƒlƒ~[‚Ìƒqƒbƒgƒ{ƒbƒNƒX‰¡
-#define ENEMY_HITBOX_HEIGHT	(1000)//ƒGƒlƒ~[‚Ìƒqƒbƒgƒ{ƒbƒNƒXc
-#define ENEMY_WIDTH_PATTERN	(4)//‰¡ƒAƒjƒƒpƒ^[ƒ“”
-#define ENEMY_HEIGHT_PATTERN	(5)//cƒAƒjƒƒpƒ^[ƒ“”
-#define ENEMY_FRAME_MAX	((ENEMY_WIDTH_PATTERN * ENEMY_HEIGHT_PATTERN) -1)//ƒtƒŒ[ƒ€”
-#define ENEMY_FRAME_SPAN	(8)//ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒXƒpƒ“
-#define ENEMY_FOLLOW_SPAN	(5)//ƒLƒƒƒ‰ƒNƒ^[ŠÔ‚ÌŠÔŠuiƒtƒŒ[ƒ€j
-#define ENEMY_SPEED		(4.0f)//ƒGƒlƒ~[‚ÌˆÚ“®‘¬“x
-#define ENEMY_UNBEATABLE_TEME (20)//–³“GŠÔ
+#define ENEMY_MAX			(50)//åƒ‰å„å„”åƒ‹åƒä¹•åºæ‚¢
+#define ENEMY_WIDTH		(DEFAULT_TILE_SIZE * 0.5f)//å¤‹æ†¸å¢¶æš†
+#define ENEMY_HEIGHT		(DEFAULT_TILE_SIZE * 0.5f)//å¤‹æ†¸å»²å´…å
+#define ENEMY_HITBOX_WIDTH		(80)//åƒ„åƒ±å„ˆä¹•åºåƒ¸åƒ¢åƒ©å„ƒåƒ¢åƒ‹åƒ—å¢¶
+#define ENEMY_HITBOX_HEIGHT	(80)//åƒ„åƒ±å„ˆä¹•åºåƒ¸åƒ¢åƒ©å„ƒåƒ¢åƒ‹åƒ—å»²
+#define ENEMY_WIDTH_PATTERN	(4)//å¢¶å‚¾åƒ¯å„Šåƒ·åƒä¹•å„æ‚¢
+#define ENEMY_HEIGHT_PATTERN	(5)//å»²å‚¾åƒ¯å„Šåƒ·åƒä¹•å„æ‚¢
+#define ENEMY_SPEED		(1.0f)//åƒ„åƒ±å„ˆä¹•åºå æ‘¦æ‡æ™
+#define ENEMY_FRAME_MAX	((ENEMY_WIDTH_PATTERN * ENEMY_HEIGHT_PATTERN) -1)//åƒ¼å„—ä¹•å„‰æ‚¢
+#define ENEMY_FRAME_SPAN	(16)//å‚¾åƒ¯å„Šä¹•åƒ”å„‘å„åºåƒ—åƒ·å„
+#define ENEMY_FOLLOW_SPAN	(5)//åƒ‰å„å„”åƒ‹åƒä¹•å¨«åºå¨«å¦˜ä¹®åƒ¼å„—ä¹•å„‰ä¹¯
+#define ENEMY_UNBEATABLE_TEME (20)//æŸæ‹å¸ªå¨«
 
 //---------------------------------------------------
-//—ñ‹“‘ÌéŒ¾
+//æ¥å«‡æ‡±æ„°å°µ
 //---------------------------------------------------
 typedef enum
 {
@@ -32,7 +34,7 @@ typedef enum
 	ENEMY_STATE_RISE,
 	ENEMY_STATE_FALL,
 	ENEMY_STATE_DEAD
-}ENEMY_STATE;
+}_ENEMY_STATE;
 
 typedef enum
 {
@@ -43,66 +45,130 @@ typedef enum
 }ENEMY_TYPE;
 
 //---------------------------------------------------
-//\‘¢‘ÌéŒ¾
+//å³”æ†¿æ‡±æ„°å°µ
 //---------------------------------------------------
-struct ENEMY {
-	D3DXVECTOR2	pos;	//ˆÊ’uƒxƒNƒgƒ‹
-	D3DXVECTOR2	vel;	//‘¬“xƒxƒNƒgƒ‹
-	D3DXCOLOR color;	//’¸“_ƒJƒ‰[
-	bool use;			//g—p’†ƒtƒ‰ƒO
-	D3DXVECTOR2 size;	//ƒTƒCƒY
+class FSMBase;
+class Enemy 
+{
+public:
+	Enemy() { ; }
+	virtual ~Enemy() { ; }
+	D3DXVECTOR2	_pos;	//åŸµæŠ²å„€åƒ‹åƒ©å„–
+	D3DXVECTOR2	_vel;	//æ‡æ™å„€åƒ‹åƒ©å„–
+	D3DXCOLOR _color;	//æ€æ°åƒ‡å„”ä¹•
+	bool _use;			//å·Šæ¢¡æ‹åƒ¼å„”åƒŒ
+	D3DXVECTOR2 _size;	//åƒ’åƒ€åƒ˜
+	
+	float _hsp;
+	float _vsp;
+	float _grv;
+	float _walksp;
+	float _controller;
+	bool _hascontrol;
+	float _canjump;
+	float _knockBackX;
+	float _knockBackY;
+	bool _ground;
+	bool _oldGround;
 
-	float hsp;
-	float vsp;
-	float grv;
-	float walksp;
-	float controller;
-	bool hascontrol;
-	float canjump;
-	float knockBackX;
-	float knockBackY;
-	bool ground;
-	bool oldGround;
+	bool _leftMove;
+	bool _rightMove;
+	bool _jump;
+	int _move;
+	int _stateCou;
+	bool _reverse;
 
-	ENEMY_STATE state;
-	ENEMY_STATE oldState;
-	int animeWidthPattern;
-	int animeHeightPattern;
-	int animeFrameMax;
-	int animeBasePattern;
-	int animePattern;
-	int animeSkipFrame;
+	int _hp;
+	int _oldHp;
+	bool _unbeatable;
+	int _unbeatableTime;
+	int _unbeatableCou;
 
-	bool leftMove;
-	bool rightMove;
-	bool jump;
-	int move;
-	int stateCou;
-	bool reverse;
+	int _score;
+	int _textureNo;
+	int _jumpPower;
+	TILE_DATA* _Tile;
+	//anime
+	int _animeWidthPattern;
+	int _animeHeightPattern;
+	int _animeFrameMax;
+	int _animeBasePattern;
+	int _animePattern;
+	int _animeSkipFrame;
+	float _U;
+	float _V;
+	float _UW;
+	float _VH;
+	int _AnimePattern;
+	FSMBase* fsm;
 
-	int hp;
-	int oldHp;
-	bool unbeatable;
-	int unbeatableTime;
-	int unbeatableCou;
-
-	int score;
-	ENEMY_TYPE type;
-	int textureNo;
-	int jumpPower;
+	void Init()
+	{
+		_use = false;
+		_pos.x = SCREEN_WIDTH / 2;
+		_pos.y = SCREEN_HEIGHT / 4;
+		_vel.x = ENEMY_SPEED;
+		_vel.y = ENEMY_SPEED;
+		//å„€åƒ‹åƒ©å„–åºæƒ“å©¯å£”
+		D3DXVec2Normalize(&_vel, &_vel);
+		_vel *= ENEMY_SPEED;//æ šæ‘åºåƒ—åƒºä¹•åƒªåµå¡å‚å¨å‚”åµåƒ—åƒºä¹•åƒªå‚ªå¿”å¶¼å¡å‚
+		_color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		_hsp = 0;
+		_vsp = 0;
+		_grv = 0.3f;
+		_walksp = 1.0f;
+		_controller = true;
+		_hascontrol = false;
+		_canjump = 0;
+		_knockBackX = 0;
+		_knockBackY = 0;
+		_ground = false;
+		_animeWidthPattern = 4;
+		_animeHeightPattern = 5;
+		_animeFrameMax = 0;
+		_size = D3DXVECTOR2(ENEMY_WIDTH, ENEMY_HEIGHT);
+		_leftMove = false;
+		_rightMove = false;
+		_jump = false;
+		_move = 0;
+		_stateCou = 0;
+		_animeBasePattern = 0;
+		_animePattern = 0;
+		_animeSkipFrame = 0;
+		_reverse = true;
+		_hp = 10;
+		_oldHp = 0;
+		_unbeatable = false;
+		_unbeatableTime = ENEMY_UNBEATABLE_TEME;
+		_unbeatableCou = 0;
+		_score = 0;
+		_textureNo = 0;
+		_jumpPower = -15;
+		_oldGround = false;
+		_U = 0.0f;
+		_V = 0.0f;
+		_UW = 1.0f / ENEMY_WIDTH_PATTERN;
+		_VH = 1.0f / ENEMY_HEIGHT_PATTERN;
+		_AnimePattern = 0;
+	}
+	void virtual Dropitems()=0;
+	void virtual Dead() = 0;
+	void virtual Update()=0;
+	void virtual Attack(D3DXVECTOR2 targetPos) = 0;
+	void virtual Draw() = 0;
 };
 
 //---------------------------------------------------
-//ƒvƒƒgƒ^ƒCƒvéŒ¾
+//åƒ¾å„˜åƒ©åƒåƒ€åƒ¾æ„°å°µ
 //---------------------------------------------------
 void InitEnemy(void);
 void UninitEnemy(void);
 void UpdateEnemy(void);
 void DrawEnemy(void);
 
-ENEMY* GetEnemy();
+Enemy* GetEnemy();
 void SetEnemyGunKick(int index, float power, float radian);
 void SetEnemyKnockBack(int index, float power, float radian);
-void SetEnemy(float posX, float posY, ENEMY_TYPE type);
+void SetEnemy(float posX, float posY);
 void EnemyAllDelete();
 void EnemyHpDown(int index, int damage);
