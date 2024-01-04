@@ -140,8 +140,6 @@ void DrawSpriteCamera(int texNo, float X, float Y, float Width, float Height, fl
 
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-	D3DXVECTOR2 cameraMove = GetCameraMoveVolume();
-
 	float hw, hh;
 	hw = Width * 0.5f;
 	hh = Height * 0.5f;
@@ -771,18 +769,19 @@ D3DXVECTOR2 PosCameraRevision(float posX, float posY)
 
 	D3DXVECTOR2 cameraMove = GetCameraMoveVolume();
 	D3DXVECTOR2 posCameraRevision;
+
 	posCameraRevision.x = posX - (int)cameraMove.x;
 	posCameraRevision.y = posY - (int)cameraMove.y;
 
-	//ループ先画面表示
-	if (posCameraRevision.x < -SCREEN_WIDTH)
-	{
-		posCameraRevision.x += stageSize;
-	}
-	if (posCameraRevision.x > SCREEN_WIDTH)
-	{
-		posCameraRevision.x -= stageSize;
-	}
+	//ループ先画面表示 ※右の表示がバグります(ループしない場合切ってOK)
+	//if (posCameraRevision.x < -SCREEN_WIDTH)
+	//{
+	//	posCameraRevision.x += stageSize;
+	//}
+	//if (posCameraRevision.x > SCREEN_WIDTH)
+	//{
+	//	posCameraRevision.x -= stageSize;
+	//}
 
 	return posCameraRevision;
 }

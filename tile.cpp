@@ -319,11 +319,11 @@ void DrawTile(void)
 				//マップ情報を取得
 				MAP_DATA_T mapchip = g_MapInfo[g_map[y][x]];
 
-				DrawSpriteLeftTopCamera
+				DrawSpriteCamera
 				(
 					g_Ground,
-					x * MAPCHIP_SIZE,
-					y * MAPCHIP_SIZE,
+					(int)g_Tile[y][x].pos.x,
+					(int)g_Tile[y][x].pos.y,
 					MAPCHIP_SIZE, MAPCHIP_SIZE,		//幅、高さ
 					mapchip.uv.x, mapchip.uv.y,		//左上UV座標
 					g_UW, g_VH						//テクスチャ幅、高
