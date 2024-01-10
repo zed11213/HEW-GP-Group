@@ -19,10 +19,10 @@ public:
 	}
 
 	//------------------------------------------
-	//[in]startPoint : 発射点        
-	//[in]targetPoint : 目標点
+	//[in]startPoint : 発射祦E       
+	//[in]targetPoint : 目標祦E
 	//[in]high : 高さ
-	//[in]time : 飛行時間(秒)
+	//[in]time : 丒行時間(脕E
 	//-----------------------------------------
 	void SetBullet(D3DXVECTOR2 startPoint,D3DXVECTOR2 targetPoint,int high=200,float time=2.0f);
 	SpiderBullet SBullet[50];

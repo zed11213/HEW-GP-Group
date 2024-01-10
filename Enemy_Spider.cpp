@@ -13,7 +13,7 @@ void Enemy_Spider::Dead()
 
 void Enemy_Spider::Attack(D3DXVECTOR2 targetPos)
 {
-	EnemyBulletSpawn::Instance()->SetBullet(_pos, targetPos,100,1.0f);
+	EnemyBulletSpawn::Instance()->SetBullet(_pos, targetPos,30,0.5f);
 }
 
 void Enemy_Spider::Draw()

@@ -32,7 +32,7 @@ void FoundPlayer::EnterState(FSMBase* fsm)
 	fsm->_target->_animeFrameMax = 4;
 	fsm->_target->_animeBasePattern = 12;
 	fsm->_target->_animeWidthPattern = 4;
-	fsm->_target->_walksp = 3.0f;
+	fsm->_target->_walksp = 4.5f;
 
 }
 

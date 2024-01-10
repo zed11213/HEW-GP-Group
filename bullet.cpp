@@ -30,7 +30,7 @@ static float g_AnimeSkipFrameFloat;
 static BULLET g_Bullet[BULLET_MAX];
 static TILE_DATA* p_Tile;
 static CAMERA* p_Camera;
-static ENEMY* p_Enemy;
+static Enemy* p_Enemy;
 static bool g_Reverse;
 static bool g_playSoundTrigger;
 
@@ -119,9 +119,9 @@ void UpdateBullet(void)
 				{
 					//’e‚ª“G‚Éƒqƒbƒg‚µ‚½‚Æ‚«
 					if (
-						p_Enemy[j].use && 
-						!p_Enemy[j].unbeatable &&
-						CollisionRot(g_Bullet[i].pos.x, g_Bullet[i].pos.y, p_Enemy[j].pos.x, p_Enemy[j].pos.y, BULLET_HITBOX_WIDTH, BULLET_HITBOX_HEIGHT, ENEMY_HITBOX_WIDTH, ENEMY_HITBOX_HEIGHT, g_Bullet[i].rot)
+						p_Enemy[j]._use && 
+						!p_Enemy[j]._unbeatable &&
+						CollisionRot(g_Bullet[i].pos.x, g_Bullet[i].pos.y, p_Enemy[j]._pos.x, p_Enemy[j]._pos.y, BULLET_HITBOX_WIDTH, BULLET_HITBOX_HEIGHT, ENEMY_HITBOX_WIDTH, ENEMY_HITBOX_HEIGHT, g_Bullet[i].rot)
 						)
 					{
 						if (g_Bullet[i].hetList[j]) continue;

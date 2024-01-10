@@ -42,7 +42,7 @@ static int g_AnimeSkipFrame;
 static float g_AnimeSkipFrameFloat;
 static PLAYER g_Player[PLAYER_MAX];
 static TILE_DATA* p_Tile;
-static ENEMY* p_Enemy;
+static Enemy* p_Enemy;
 static bool g_Reverse;
 static D3DXVECTOR2 g_LastGroundPos;
 static int g_DropRevivalTime;
@@ -345,14 +345,14 @@ void UpdatePlayer(void)
 			float enemyRadian = 0;
 			for (int j = 0; j < ENEMY_MAX; j++)
 			{
-				if (!p_Enemy[j].use || OffScreenJudge(p_Enemy[j].pos.x, p_Enemy[j].pos.y, ENEMY_HITBOX_WIDTH, ENEMY_HITBOX_HEIGHT))
+				if (!p_Enemy[j]._use || OffScreenJudge(p_Enemy[j]._pos.x, p_Enemy[j]._pos.y, ENEMY_HITBOX_WIDTH, ENEMY_HITBOX_HEIGHT))
 				{
 					continue;
 				}
-				if (!g_Player[i].unbeatable && CollisionRot(g_Player[i].pos.x, g_Player[i].pos.y, p_Enemy[j].pos.x, p_Enemy[j].pos.y, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT, MAPCHIP_SIZE, MAPCHIP_SIZE, 0.0f))
+				if (!g_Player[i].unbeatable && CollisionRot(g_Player[i].pos.x, g_Player[i].pos.y, p_Enemy[j]._pos.x, p_Enemy[j]._pos.y, PLAYER_HITBOX_WIDTH, PLAYER_HITBOX_HEIGHT, MAPCHIP_SIZE, MAPCHIP_SIZE, 0.0f))
 				{
 					g_Player[i].hp--;
-					enemyRadian = PointDirectionRadian(g_Player[i].pos.x, g_Player[i].pos.y, p_Enemy[j].pos.x, p_Enemy[j].pos.y);
+					enemyRadian = PointDirectionRadian(g_Player[i].pos.x, g_Player[i].pos.y, p_Enemy[j]._pos.x, p_Enemy[j]._pos.y);
 					SetPlayerKnockBack(50, enemyRadian);
 					break;
 				}
