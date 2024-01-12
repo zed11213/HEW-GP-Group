@@ -434,6 +434,77 @@ void DrawSpriteColorRotate(int texNo, float X, float Y, float Width, float Heigh
 }
 
 //=============================================================================
+// REVERSE
+//=============================================================================
+//引数
+//texNo : テクスチャの識別番号（texture.h, texture.cpp のLoadTexture関数の戻り値）
+//X     : X座標（スプライトの中心点）
+//Y		: Y座標（スプライトの中心点）
+//Width : 横幅
+//Height: 高さ
+//U		: UV値始点
+//V		: UV値始点
+//UW	: UV値横幅
+//VH	: UV値高さ
+//color : 頂点の色（RGBA）
+//Rot	: 回転角度（ラジアン値）
+void DrawSpriteColorReverse(int texNo, float X, float Y, float Width, float Height,
+	float U, float V, float UW, float VH,
+	float r, float g, float b, float a, float Rot)
+{
+
+	D3D11_MAPPED_SUBRESOURCE msr;
+	GetDeviceContext()->Map(g_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
+
+	float hw, hh;
+	hw = Width * 0.5f;
+	hh = Height * 0.5f;
+
+	// 座標変換
+	vertex[0].Position.x = (-hw) * cosf(Rot) - (-hh) * sinf(Rot) + X;
+	vertex[0].Position.y = (-hw) * sinf(Rot) + (-hh) * cosf(Rot) + Y;
+	vertex[1].Position.x = (hw)*cosf(Rot) - (-hh) * sinf(Rot) + X;
+	vertex[1].Position.y = (hw)*sinf(Rot) + (-hh) * cosf(Rot) + Y;
+	vertex[2].Position.x = (-hw) * cosf(Rot) - (hh)*sinf(Rot) + X;
+	vertex[2].Position.y = (-hw) * sinf(Rot) + (hh)*cosf(Rot) + Y;
+	vertex[3].Position.x = (hw)*cosf(Rot) - (hh)*sinf(Rot) + X;
+	vertex[3].Position.y = (hw)*sinf(Rot) + (hh)*cosf(Rot) + Y;
+
+	D3DXCOLOR Color(r, g, b, a);
+	vertex[0].Diffuse = Color;
+	vertex[1].Diffuse = Color;
+	vertex[2].Diffuse = Color;
+	vertex[3].Diffuse = Color;
+
+	vertex[0].TexCoord = D3DXVECTOR2(U, V);
+	vertex[1].TexCoord = D3DXVECTOR2(U + UW, V);
+	vertex[2].TexCoord = D3DXVECTOR2(U, V + VH);
+	vertex[3].TexCoord = D3DXVECTOR2(U + UW, V + VH);
+
+	GetDeviceContext()->Unmap(g_VertexBuffer, 0);
+
+	SetSamplerState(FILTER_MODE_POINT, ADDRESS_MODE_MIRROR);
+
+	// 頂点バッファ設定
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
+
+	// プリミティブトポロジ設定
+	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	// テクスチャ設定
+	GetDeviceContext()->PSSetShaderResources(0, 1, GetTexture(texNo));
+
+	// ポリゴン描画
+	GetDeviceContext()->Draw(NUM_VERTEX, 0);
+
+	SetSamplerState(FILTER_MODE_POINT, ADDRESS_MODE_WRAP);
+}
+
+//=============================================================================
 // カメラに追従するスプライトデータ設定
 // 座標・サイズ・UV指定・頂点色・回転角度
 //=============================================================================

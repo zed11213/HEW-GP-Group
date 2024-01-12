@@ -81,8 +81,13 @@
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+<<<<<<< HEAD
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+=======
+    <IncludePath>D:\DirectX\Include;C:\ProgramFiles%28x86%29\MicrosoftDirectXSDK%28June2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\DirectX\Lib\x64;C:\ProgramFiles%28x86%29\MicrosoftDirectXSDK%28June2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+>>>>>>> origin/231215_tei
     <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -59,7 +59,11 @@ void InitGame()
 	InitTextCreate();
 	InitParticle();
 	InitIcon();
+<<<<<<< HEAD
 	InitMinimap();
+=======
+	InitUI();
+>>>>>>> origin/231215_tei
 	InitScore();
 	InitTextDW();
 	SetFadeColor(0.0f, 0.0f, 0.0f);//なんか適当な色をセット
@@ -91,7 +95,11 @@ void UpdateGame()
 	UpdateTextCreate();
 	UpdateParticle();
 	UpdateIcon();
+<<<<<<< HEAD
 	UpdateMinimap();
+=======
+	UpdateUI();
+>>>>>>> origin/231215_tei
 	UpdateScore();
 	UpdateTextDW();
 }
@@ -115,7 +123,11 @@ void DrawGame()
 	//DrawCamera();//デバッグ用
 	DrawTextCreate();
 	DrawIcon();
+<<<<<<< HEAD
 	DrawMinimap();
+=======
+	DrawUI();
+>>>>>>> origin/231215_tei
 	DrawScore();
 	DrawTextDW();
 	EnemyBulletDraw();
@@ -126,7 +138,11 @@ void DrawGame()
 //---------------------------------------------------
 void UninitGame()
 {
+<<<<<<< HEAD
 	UninitMinimap();
+=======
+	UninitUI();
+>>>>>>> origin/231215_tei
 	UninitIcon();
 	UninitTextCreate();
 	UninitParticle();
