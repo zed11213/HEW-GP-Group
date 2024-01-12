@@ -218,6 +218,9 @@ void UpdateTile(void)
 		ranSpawnY = GetRandomInt(0, MAP_SIZE_Y - 1);
 	}
 
+	size_t numRows = g_mapS1.size(); // 行の数
+	size_t numCols = (numRows > 0) ? g_mapS1[0].size() : 0; // 列の数（最初の行が空でない場合）
+
 	for (int y = 0; y < MAP_SIZE_Y; y++)
 	{
 		for (int x = 0; x < MAP_SIZE_X; x++)
@@ -226,6 +229,10 @@ void UpdateTile(void)
 			g_Tile[y][x].attrib = g_MapInfo[g_map[y][x]].attrib;
 			g_Tile[y][x].pos.x = x * MAPCHIP_SIZE + (MAPCHIP_SIZE * 0.5);
 			g_Tile[y][x].pos.y = y * MAPCHIP_SIZE + (MAPCHIP_SIZE * 0.5);
+
+			//グループで番号を割り当てる
+			int cou = int(x / numRows + 1);
+			if (x < numRows * cou)g_Tile[y][x].groupId = cou;
 
 			//敵スポーン位置設定
 			if (g_Tile[y][x].attrib == MAP_ATTRIB_STOP && g_Tile[Nat(y - 1)][x].attrib == MAP_ATTRIB_NONE)
@@ -319,15 +326,18 @@ void DrawTile(void)
 				//マップ情報を取得
 				MAP_DATA_T mapchip = g_MapInfo[g_map[y][x]];
 
-				DrawSpriteLeftTopCamera
-				(
-					g_Ground,
-					x * MAPCHIP_SIZE,
-					y * MAPCHIP_SIZE,
-					MAPCHIP_SIZE, MAPCHIP_SIZE,		//幅、高さ
-					mapchip.uv.x, mapchip.uv.y,		//左上UV座標
-					g_UW, g_VH						//テクスチャ幅、高
-				);
+				if (g_Tile[y][x].groupId != 2)
+				{
+					DrawSpriteCamera
+					(
+						g_Ground,
+						(int)g_Tile[y][x].pos.x,
+						(int)g_Tile[y][x].pos.y,
+						MAPCHIP_SIZE, MAPCHIP_SIZE,		//幅、高さ
+						mapchip.uv.x, mapchip.uv.y,		//左上UV座標
+						g_UW, g_VH						//テクスチャ幅、高
+					);
+				}
 			}
 			
 			///*[デバッグ用]-------------------------------------------*/

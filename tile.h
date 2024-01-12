@@ -46,6 +46,7 @@ struct TILE_DATA //タイルごとのデータ
 	D3DXVECTOR2 pos;	//中心座標
 	MAPATTRIB attrib;	//このマップチップが持つ属性
 	bool spawn;			//敵がこのブロック位置に湧くかどうか
+	int groupId;			//グループ判別用
 };
 
 struct POLYGON 
